@@ -6,5 +6,6 @@ from .forms import ApiDataForm
 
 # Create your views here.
 
-class ApiSearchListView(FormView):
-    
+class ApiDataFormView(FormView):
+    form_class = ApiDataForm
+    template_name = 'api_data_form.html'
