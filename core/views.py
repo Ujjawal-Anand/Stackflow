@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.from django.views.generic import ListView
+from django.views.generic import FormView
+
+from .models import ApiData
+from .forms import ApiDataForm
 
 # Create your views here.
 
-class ApiSearchListView(ListView):
+class ApiSearchListView(FormView):
     

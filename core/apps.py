@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ApiwrapperConfig(AppConfig):
-    name = 'apiwrapper'
+class CoreConfig(AppConfig):
+    name = 'core'
