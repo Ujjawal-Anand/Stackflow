@@ -73,6 +73,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.i18n",
+                'core.context_processors.metadata'
             ],
         },
     },
@@ -138,3 +140,7 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+WEBSITE_NAME = 'StackFlow'
+WEBSITE_TAGLINE = 'Search Stackoverflow'
+HOMEPAGE_URL = '/'

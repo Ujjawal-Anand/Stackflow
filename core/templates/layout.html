@@ -2,34 +2,21 @@
 {% load static %}
 
 {% block styles %}
-    {% comment %}
-        If you are developing Champsquarebackend's CSS, or overriding Champsquarebackend's CSS
-        files in your project, then set SETTINGS_USE_LESS = True in your
-        settings file. This will enable the on-the-fly less compiler.
-    {% endcomment %}
-    {% if use_less %}
-        <link rel="stylesheet/less" type="text/css" href="{% static "champsquarebackend/less/styles.less" %}" />
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="{% static "champsquarebackend/css/styles.css" %}" />
-    {% endif %}
-    <link rel="stylesheet" href="{% static "champsquarebackend/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" %}" />
-    <link rel="stylesheet" type="text/css" href="{% static "champsquarebackend/css/datetimepicker.css" %}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 {% endblock %}
 
 {% block layout %}
-    {# Top-horizontal bar with account, notifictions, dashboard links #}
-    {% include "champsquarebackend/partials/nav_accounts.html" %}
-
+    
     {# Site logo/title, browse dropdown and searchbox #}
     <header class="header container-fluid">
         <div class="page_inner">
             <div class="row">
-                {% include "champsquarebackend/partials/brand.html" %}
+                {% include "partials/brand.html" %}
                
             </div>
         </div>
         {% block navigation %}
-            {% include "champsquarebackend/partials/nav_primary.html" %}
+            {% include "partials/nav_primary.html" %}
         {% endblock %}
     </header>
 
@@ -55,7 +42,7 @@
         </div>
     {% endblock %}
 
-    {% include "champsquarebackend/partials/footer.html" %}
+    {% include "partials/footer.html" %}
 {% endblock %}
 
 {% block cdn_scripts %}
@@ -64,24 +51,16 @@
     {# Load the on-the-fly less compiler. Never do this in production. #}
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
   {% endif %}
+
 {% endblock %}
 
 {# Local scripts #}
 {% block scripts %}
     {{ block.super }}
-    <!-- Twitter Bootstrap -->
-    <script src="{% static "champsquarebackend/js/bootstrap3/bootstrap.min.js" %}"></script>
-    <!-- Champsquarebackend -->
-    <script src="{% static "champsquarebackend/js/champsquarebackend/ui.js" %}"></script>
-
-    <script src="{% static "champsquarebackend/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js" %}"></script>
-    <script src="{% static "champsquarebackend/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}"></script>
+   
+   
 {% endblock %}
 
-{% block extrascripts %}
-    {% include "champsquarebackend/partials/extrascripts.html" %}
-    {{ block.super }}
-{% endblock %}
 
 {% block onbodyload %}
     {{ block.super }}
