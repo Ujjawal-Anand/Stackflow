@@ -46,7 +46,8 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "crispy_forms",
-    'debug_toolbar'
+    'debug_toolbar',
+    'widget_tweaks'
 ]
 
 LOCAL_APPS = [

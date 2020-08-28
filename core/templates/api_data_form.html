@@ -16,9 +16,15 @@
 {% block error_message %}
     {% include 'partials/alert_messages.html' %}
 {% endblock %}
-  <form method="post">
-    {% csrf_token %}
-    <div class="row">
+  
+    
+    {% comment %} <div class="row">
+    <div class="ui small labeled input">
+          <div class="ui label">
+            Questions
+          </div>
+          {{ form.body }}
+    </div>
       <div class="col-md-6 mb-0">
         {{ form.body|as_crispy_field }}
       </div>
@@ -29,32 +35,32 @@
 
     <div class="row">
       <div class="col-md-3 mb-0">
-        {{ form.q|as_crispy_field }}
+        {{ form.q }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.url|as_crispy_field }}
+        {{ form.url }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.notagged|as_crispy_field }}
+        {{ form.notagged }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.tagged|as_crispy_field }}
+        {{ form.tagged }}
       </div>
     </div>
 
 
     <div class="row">
       <div class="col-md-3 mb-0">
-        {{ form.page|as_crispy_field }}
+        {{ form.page }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.pagesize|as_crispy_field }}
+        {{ form.pagesize }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.answers|as_crispy_field }}
+        {{ form.answers }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.views|as_crispy_field }}
+        {{ form.views }}
       </div>
     </div>
     
@@ -62,53 +68,65 @@
     
     <div class="row">
       <div class="col-md-3 mb-0">
-        {{ form.user|as_crispy_field }}
+        {{ form.user }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.order|as_crispy_field }}
+        {{ form.order }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.sort|as_crispy_field }}
+        {{ form.sort }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.accepted|as_crispy_field }}
+        {{ form.accepted }}
       </div>
       
     </div>
 
     <div class="row">
       <div class="col-md-3 mb-0">
-        {{ form.closed|as_crispy_field }}
+        {{ form.closed }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.migrated|as_crispy_field }}
+        {{ form.migrated }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.notice|as_crispy_field }}
+        {{ form.notice }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.wiki|as_crispy_field }}
+        {{ form.wiki }}
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-3 mb-0">
-        {{ form.fromdate|as_crispy_field }}
+        {{ form.fromdate }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.todate|as_crispy_field }}
+        {{ form.todate }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.min_date|as_crispy_field }}
+        {{ form.min_date }}
       </div>
       <div class="col-md-3 mb-0">
-        {{ form.max_date|as_crispy_field }}
+        {{ form.max_date }}
       </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Run</button>
-  </form>
-
+    </div> {% endcomment %}
+    
   <div class="ui equal width vertically padded grid container">
+    <div class="column left-sidebar left">
+        <div class="ui fluid left vertical">
+          <div class="sidebar-total-questions">
+            <h3 class="ui grey header">Search Filters</h3>
+            <form method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Run</button>
+              {% for field in form %}
+                {% include 'partials/form_field.html' with field=field %}      
+              {% endfor %}
+            </form>
+          </div><!-- end /.sidebar-total-questions -->
+        </div>
+      </div>
       <div class="twelve wide column">
         <!--<div class="repo description">
           <div>Semantic is a UI component framework based around useful principles from natural language.</div>
@@ -258,96 +276,6 @@
             </div><!-- end /.ui.pagination.menu -->
           </div>
         {% endif %}{# endif is_paginated #}
-      </div>
-      <div class="column right-sidebar">
-        <div class="ui fluid right vertical">
-          <div class="sidebar-total-questions">
-            <h2 class="ui grey header">
-              {{ total_questions }}
-              <div class="sub header">questions</div>
-            </h2>
-          </div><!-- end /.sidebar-total-questions -->
-
-          <!--<div class="ui divider"></div>-->
-
-          <div class="sidebar-bulletin">
-            <div class="ui list">
-              <a class="item no-underline">
-                <i class="lightning icon"></i>
-                <div class="content">
-                  An excellent polish restaurant, quick delivery and hearty
-                </div>
-              </a>
-              <a class="item no-underline">
-                <i class="lightning icon"></i>
-                <div class="content">
-                  A taste of Shaanxi's delicious culinary traditions
-                </div>
-              </a>
-              <a class="item no-underline">
-                <i class="lightning icon"></i>
-                <div class="content">
-                  Greenpoint's best choice for quick and delicious sushi.
-                </div>
-              </a>
-            </div>
-          </div><!-- end /.sidebar-bulletin -->
-
-          <!--<div class="ui divider"></div>-->
-
-          <div class="sidebar-related-tags">
-            <h3 class="ui grey header">Related Tags</h3>
-            <div class="ui selection list"><!-- divided -->
-              <a class="item no-underline">
-                <div class="ui horizontal label no-radius">Fruit</div>
-                × 77468
-              </a>
-              <a class="item no-underline">
-                <div class="ui horizontal label no-radius">Candy</div>
-                × 16671
-              </a>
-              <a class="item no-underline">
-                <div class="ui horizontal label no-radius">Fruit</div>
-                × 9092
-              </a>
-              <a class="item no-underline">
-                <div class="ui horizontal label no-radius">Dog</div>
-                × 7066
-              </a>
-            </div>
-          </div><!-- end /.sidebar-related-tags -->
-
-          <div class="ui divider"></div>
-
-          <div class="sidebar-related-questions">
-            <div class="ui list">
-              <a class="item no-underline">
-                <i class="ui answered icon">20</i>
-                <div class="content">
-                  Implementing multiple profiles with django-all-auth
-                </div>
-              </a>
-              <a class="item no-underline">
-                <i class="ui answered icon">38</i>
-                <div class="content">
-                  How to customize user profile when using django-allauth
-                </div>
-              </a>
-              <a class="item no-underline">
-                <i class="ui unanswered icon">27</i>
-                <div class="content">
-                  Django Endless Pagination Twitter Style Ajax breaks on another Ajax call
-                </div>
-              </a>
-              <a class="item no-underline">
-                <i class="ui unanswered icon">27</i>
-                <div class="content">
-                  Distinctively visualize vertical mindshare
-                </div>
-              </a>
-            </div>
-          </div><!-- end /.sidebar-related-questions -->
-        </div><!-- end /.ui fluid right vertical -->
       </div>
     </div><!-- end /.ui equal width vertically padded grid container -->
 {% endblock %}
