@@ -4,8 +4,8 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 class ApiData(models.Model):
-    page =  models.IntegerField(_("Page number"), null=True, blank=True)
-    pagesize = models.IntegerField(_("Page Size"), null=True, blank=True)
+    page =  models.PositiveIntegerField(_("Page number"), null=True, blank=True)
+    pagesize = models.PositiveIntegerField(_("Page Size"), null=True, blank=True)
     fromdate = models.DateField(_("From Date"), null=True, blank=True)
     todate = models.DateField(_("To Date"), null=True, blank=True)
     
@@ -29,17 +29,17 @@ class ApiData(models.Model):
     
     # a free form text parameter, will match all question properties 
     # based on an undocumented algorithm
-    q = models.TextField(_(""), blank=True)
+    q = models.CharField(_("q"), max_length=1023, blank=True)
     
     # true to return only questions with accepted answers, 
     # false to return only those without. Omit to elide constraint.
     accepted = models.BooleanField(_("accepted"), blank=True, null=True)
     
     # the minimum number of answers returned questions must have.
-    answers = models.IntegerField(_("Number of answers"), blank=True, null=True)
+    answers = models.PositiveIntegerField(_("Number of answers"), blank=True, null=True)
     
     # text which must appear in returned questions' bodies
-    body = models.TextField(blank=True,
+    body = models.CharField(blank=True, max_length=1023,
                             help_text=_("text which must appear in returned questions' bodies."))
     
     # true to return only closed questions, false to return only open ones. Omit to elide constraint.
@@ -65,13 +65,13 @@ class ApiData(models.Model):
     title = models.CharField(_("Title"), max_length=255, blank=True)
 
     # the id of the user who must own the questions returned.
-    user = models.IntegerField(_("Id of user"), null=True, blank=True)
+    user = models.PositiveIntegerField(_("Id of user"), null=True, blank=True)
 
     # a url which must be contained in a post, may include a wildcard.
     url = models.CharField(_("url"), max_length=255, blank=True)
 
     # the minimum number of views returned questions must have.
-    views = models.IntegerField(_("Minimum number of views"), blank=True, null=True)
+    views = models.PositiveIntegerField(_("Minimum number of views"), blank=True, null=True)
 
     # true to return only community wiki questions, false to return 
     # only non-community wiki ones. Omit to elide constraint.

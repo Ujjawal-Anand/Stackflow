@@ -1,6 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
 
 {% load crispy_forms_tags %}
+
+{% block extrastyles %}
+ {{ block.super }}
+ <!--datepicker-->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+{% endblock extrastyles %}
+
+{% block extrascripts %}
+{{ block.super }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+{% endblock extrascripts %}
 
 {% block content %}
   <form method="post">
