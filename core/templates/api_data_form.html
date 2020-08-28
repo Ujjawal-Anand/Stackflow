@@ -1,6 +1,16 @@
 {% extends 'layout.html' %}
-
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
 {% load crispy_forms_tags %}
+
+{% block extrastyles %}
+  {{ block.super }}
+  <link href="{% static 'css/semantic.min.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/global-github-theme.min.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/spfjs.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/stackoverflow_style.css' %}" rel="stylesheet" media="all">
+{% endblock extrastyles %}
 
 {% block content %}
 {% block error_message %}
@@ -97,4 +107,252 @@
     </div>
     <button type="submit" class="btn btn-primary">Run</button>
   </form>
+
+  <div class="ui equal width vertically padded grid container">
+      <div class="twelve wide column">
+        <!--<div class="repo description">
+          <div>Semantic is a UI component framework based around useful principles from natural language.</div>
+        </div>-->
+        <div class="ui divided items">
+          {% for question in questions %}
+          <div class="item">
+            <div class="stats">
+              <div class="vote stats-inside">
+                <div class="ui mini statistic">
+                  <div class="value">
+                    {{ question.score }}
+                  </div>
+                  <div class="label">
+                    votes
+                  </div>
+                </div>
+              </div>
+              <div class="answers stats-inside">
+                <div class="ui mini statistic">
+                  <div class="value">
+                    {{ question.answer_count }}
+                  </div>
+                  <div class="label">
+                    answers
+                  </div>
+                </div>
+              </div>
+              <div class="views stats-inside">
+                <div class="ui mini statistic">
+                  <div class="value">
+                    {{ question.view_count }}
+                  </div>
+                  <div class="label">
+                    views
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content">
+              <a href="{{ question.link}}" class="ui blue header no-bold spf-link">{{ question.title }}</a>
+              <div class="meta">
+                <span class="date">asked {{ question.creation_date|timestamp_to_time }}</span>
+              </div>
+              {% comment %} <div class="description">
+                <p>{{ question.description|safe|striptags|truncatewords:"30" }}</p>
+              </div> {% endcomment %}
+              <div class="extra">
+                {% for tag in question.tags %}
+                 <div class="ui horizontal label no-radius">{{ tag }} </div>
+                {% endfor %}
+
+                <div class="ui right floated user-info">
+                  <div class="ui items">
+                    <div class="item">
+                      <a class="ui tiny image spf-link" href="{{ question.owner.link }}">
+                        <img src="{{ question.owner.profile_image }}">
+                      </a>
+                      <div class="content">
+                        <a class="ui blue small header spf-link"
+                          href="{{ question.owner.link }}">
+                          {{ question.owner.display_name }}
+                        </a>
+                        <div class="description">
+                          <span class="reputation">
+                            <i class="diamond orange icon"></i> <b>{{question.owner.reputation}}</b>
+                          </span>
+                          &nbsp;
+                          <span class="gold-badge">
+                            <i class="circle small yellow icon"></i> 12
+                          </span>
+                          &nbsp;
+                          <span class="silver-badge">
+                            <i class="circle small grey icon"></i> 38
+                          </span>
+                          &nbsp;
+                          <span class="bronze-badge">
+                            <i class="circle small brown icon"></i> 93
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div><!-- end /.items -->
+
+        <div class="ui divider"></div>
+
+        {% if is_paginated %}
+          {# `is_paginated` is default bassed in `generic.ListView` #}
+          <div class="ui paginations">
+            <div class="ui small pagination menu">
+              {% if page_obj.has_previous %}
+                <a class="item spf-link" href="?page={{ page_obj.previous_page_number }}">
+                  {% trans "prev" %}
+                </a>
+              {% endif %}
+              <a class="item spf-link" href="?page=1">first</a>
+
+              <!--{% if page_obj.paginator.num_pages not in page_range %}
+                <div class="disabled item">...</div>
+              {% endif %}-->
+
+              {% for linkpage in page_range %}
+                {% ifequal linkpage page_obj.number %}
+                  <a class="item active">
+                    {{ page_obj.number }}
+                  </a>
+                {% else %}
+                  <a class="item spf-link" href="?page={{ linkpage }}">{{ linkpage }}</a>
+                {% endifequal %}
+              {% endfor %}
+
+              <!--{% if 1 not in page_range %}
+                <div class="disabled item">...</div>
+              {% endif %}-->
+
+              <a class="item spf-link" href="?page={{ page_obj.paginator.num_pages }}">last</a>
+
+              <!--{% if page_obj.paginator.num_pages > 5 and page_obj.paginator.num_pages not in page_range %}
+                <a class="item spf-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+              {% endif %}-->
+
+              {% if page_obj.has_next %}
+                <a class="item spf-link" href="?page={{ page_obj.next_page_number }}">
+                  {% trans "next" %}
+                </a>
+              {% endif %}
+            </div><!-- end /.ui.pagination.menu -->
+            <div class="ui right floated small pagination menu">
+              <a class="active item">
+                10
+              </a>
+              <a class="item">
+                30
+              </a>
+              <a class="item">
+                50
+              </a>
+              <a class="disabled item">
+                per page
+              </a>
+            </div><!-- end /.ui.pagination.menu -->
+          </div>
+        {% endif %}{# endif is_paginated #}
+      </div>
+      <div class="column right-sidebar">
+        <div class="ui fluid right vertical">
+          <div class="sidebar-total-questions">
+            <h2 class="ui grey header">
+              {{ total_questions }}
+              <div class="sub header">questions</div>
+            </h2>
+          </div><!-- end /.sidebar-total-questions -->
+
+          <!--<div class="ui divider"></div>-->
+
+          <div class="sidebar-bulletin">
+            <div class="ui list">
+              <a class="item no-underline">
+                <i class="lightning icon"></i>
+                <div class="content">
+                  An excellent polish restaurant, quick delivery and hearty
+                </div>
+              </a>
+              <a class="item no-underline">
+                <i class="lightning icon"></i>
+                <div class="content">
+                  A taste of Shaanxi's delicious culinary traditions
+                </div>
+              </a>
+              <a class="item no-underline">
+                <i class="lightning icon"></i>
+                <div class="content">
+                  Greenpoint's best choice for quick and delicious sushi.
+                </div>
+              </a>
+            </div>
+          </div><!-- end /.sidebar-bulletin -->
+
+          <!--<div class="ui divider"></div>-->
+
+          <div class="sidebar-related-tags">
+            <h3 class="ui grey header">Related Tags</h3>
+            <div class="ui selection list"><!-- divided -->
+              <a class="item no-underline">
+                <div class="ui horizontal label no-radius">Fruit</div>
+                × 77468
+              </a>
+              <a class="item no-underline">
+                <div class="ui horizontal label no-radius">Candy</div>
+                × 16671
+              </a>
+              <a class="item no-underline">
+                <div class="ui horizontal label no-radius">Fruit</div>
+                × 9092
+              </a>
+              <a class="item no-underline">
+                <div class="ui horizontal label no-radius">Dog</div>
+                × 7066
+              </a>
+            </div>
+          </div><!-- end /.sidebar-related-tags -->
+
+          <div class="ui divider"></div>
+
+          <div class="sidebar-related-questions">
+            <div class="ui list">
+              <a class="item no-underline">
+                <i class="ui answered icon">20</i>
+                <div class="content">
+                  Implementing multiple profiles with django-all-auth
+                </div>
+              </a>
+              <a class="item no-underline">
+                <i class="ui answered icon">38</i>
+                <div class="content">
+                  How to customize user profile when using django-allauth
+                </div>
+              </a>
+              <a class="item no-underline">
+                <i class="ui unanswered icon">27</i>
+                <div class="content">
+                  Django Endless Pagination Twitter Style Ajax breaks on another Ajax call
+                </div>
+              </a>
+              <a class="item no-underline">
+                <i class="ui unanswered icon">27</i>
+                <div class="content">
+                  Distinctively visualize vertical mindshare
+                </div>
+              </a>
+            </div>
+          </div><!-- end /.sidebar-related-questions -->
+        </div><!-- end /.ui fluid right vertical -->
+      </div>
+    </div><!-- end /.ui equal width vertically padded grid container -->
 {% endblock %}
+
+{% block extrascripts %}
+
+{% endblock extrascripts %}
+
