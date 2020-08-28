@@ -1,28 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block styles %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-{% endblock %}
+
 
 {% block layout %}
     
-    {# Site logo/title, browse dropdown and searchbox #}
-    <header class="header container-fluid">
-        <div class="page_inner">
-            <div class="row">
-                {% include "partials/brand.html" %}
-               
-            </div>
-        </div>
-        {% block navigation %}
-            {% include "partials/nav_primary.html" %}
-        {% endblock %}
-    </header>
-
+    {% block navigation %}
+        {% include "partials/nav_primary.html" %}
+    {% endblock %}
+    
     {# Main content of page - other layout templates may override this block #}
     {% block content_wrapper %}
-        <div class="container-fluid page">
+        <div class="container page">
             <div class="page_inner">
                 {% block breadcrumbs %}{% endblock %}
                 {% block header %}

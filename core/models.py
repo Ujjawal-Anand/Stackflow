@@ -4,10 +4,14 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 class ApiData(models.Model):
-    page =  models.PositiveIntegerField(_("Page number"), null=True, blank=True)
-    pagesize = models.PositiveIntegerField(_("Page Size"), null=True, blank=True)
-    fromdate = models.DateField(_("From Date"), null=True, blank=True)
-    todate = models.DateField(_("To Date"), null=True, blank=True)
+    page =  models.PositiveIntegerField(_("Page number"), null=True, blank=True,
+                                help_text=_("Returns specified Page of result"))
+    pagesize = models.PositiveIntegerField(_("Page Size"), null=True, blank=True,
+                            help_text=_("Number of pages to be returned"))
+    fromdate = models.DateField(_("From Date"), null=True, blank=True,
+                        help_text=_('Return questions from date'))
+    todate = models.DateField(_("To Date"), null=True, blank=True,
+                            help_text=_("Returns question up to date"))
     
     DESCENDING = 'desc'
     Ascending = 'asc'
@@ -15,7 +19,8 @@ class ApiData(models.Model):
         (DESCENDING, 'Descending'),
         (Ascending, 'Ascending')
     )
-    order = models.CharField(_("Order"), max_length=20, default=DESCENDING, choices=ORDER_OPTIONS)
+    order = models.CharField(_("Order"), max_length=20, default=DESCENDING, choices=ORDER_OPTIONS,
+                                help_text=_("order of data returned"))
     min_date = models.DateField(_("min"), null=True, blank=True)
     max_date = models.DateField(_("max"), null=True, blank=True)
     SORT_OPTIONS = (
@@ -27,55 +32,57 @@ class ApiData(models.Model):
     sort = models.CharField(_("Sort"), max_length=20, 
                             default='activity', choices=SORT_OPTIONS)
     
-    # a free form text parameter, will match all question properties 
-    # based on an undocumented algorithm
-    q = models.CharField(_("q"), max_length=1023, blank=True)
+    
+    q = models.CharField(_("q"), max_length=1023, blank=True,
+                            help_text=_('A free form text parameter, will match all question properties '))
     
     # true to return only questions with accepted answers, 
     # false to return only those without. Omit to elide constraint.
-    accepted = models.BooleanField(_("accepted"), blank=True, null=True)
+    accepted = models.BooleanField(_("accepted"), blank=True, null=True,
+                                    help_text=_("True to return only questions with accepted answers"))
     
-    # the minimum number of answers returned questions must have.
-    answers = models.PositiveIntegerField(_("Number of answers"), blank=True, null=True)
+    answers = models.PositiveIntegerField(_("Number of answers"), 
+                                          blank=True, null=True,
+                                          help_text=_("The minimum number of answers returned questions must have"))
     
-    # text which must appear in returned questions' bodies
     body = models.CharField(blank=True, max_length=1023,
-                            help_text=_("text which must appear in returned questions' bodies."))
+                            help_text=_("Text which must appear in returned questions' bodies."))
     
-    # true to return only closed questions, false to return only open ones. Omit to elide constraint.
-    closed = models.BooleanField(_("closed?"), blank=True, null=True)
+    closed = models.BooleanField(_("closed"), blank=True, null=True,
+                                help_text=_("True to return only closed questions, false to return only open ones"))
     
     # true to return only questions migrated away from a site, 
     # false to return only those not. Omit to elide constraint.
-    migated = models.BooleanField(_("migrated?"), blank=True, null=True)
+    migrated = models.BooleanField(_("migrated"), blank=True, null=True,
+                                help_text=_("True to return only questions migrated away from a site"))
 
     # true to return only questions with post notices, 
     # false to return only those without. Omit to elide constraint.
-    notice = models.BooleanField(_("Notice"), blank=True, null=True)
+    notice = models.BooleanField(_("Notice"), blank=True, null=True,
+                                help_text=_("True to return only questions with post notices"))
 
-    # a semicolon delimited list of tags, none of which 
-    # will be present on returned questions.
-    notagged = models.CharField(_("Not tagged"), max_length=253, blank=True)
+    
+    notagged = models.CharField(_("Not tagged"), max_length=253, blank=True,
+                                help_text=_("A semicolon delimited list of tags, none of which will be present on returned questions."))
 
-    # a semicolon delimited list of tags, of which at least 
-    # one will be present on all returned questions
-    tagged = models.CharField(_("Tagged"), max_length=255, blank=True)
+    tagged = models.CharField(_("Tagged"), max_length=255, blank=True,
+                                help_text=_("A semicolon delimited list of tags, to be present (at least one)"))
 
-    # text which must appear in returned questions' titles
-    title = models.CharField(_("Title"), max_length=255, blank=True)
+    title = models.CharField(_("Title"), max_length=255, blank=True,
+                            help_text=_("Text which must appear in returned questions' titles"))
 
-    # the id of the user who must own the questions returned.
-    user = models.PositiveIntegerField(_("Id of user"), null=True, blank=True)
+    user = models.PositiveIntegerField(_("Id of user"), null=True, blank=True,
+                            help_text=_("The id of the user who must own the questions returned."))
 
-    # a url which must be contained in a post, may include a wildcard.
-    url = models.CharField(_("url"), max_length=255, blank=True)
+    
+    url = models.CharField(_("url"), max_length=255, blank=True,
+                            help_text=_("A url which must be contained in a post, may include a wildcard."))
 
-    # the minimum number of views returned questions must have.
-    views = models.PositiveIntegerField(_("Minimum number of views"), blank=True, null=True)
+    views = models.PositiveIntegerField(_("views"), blank=True, null=True,
+                                help_text=_("The minimum number of views returned questions must have."))
 
-    # true to return only community wiki questions, false to return 
-    # only non-community wiki ones. Omit to elide constraint.
-    wiki = models.BooleanField(_("wiki"), blank=True, null=True)
+    wiki = models.BooleanField(_("wiki"), blank=True, null=True,
+                            help_text=_("True to return only community wiki questions"))
 
     class Meta:
         verbose_name = _("ApiData")

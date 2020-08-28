@@ -1,16 +1,16 @@
 {% load i18n %}
 
-<div class="navbar sticky-top primary navbar-static-top navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header pull-right">
-            {# This is used in mobile view #}
-            <a class="btn btn-default navbar-toggle collapsed" data-toggle="collapse" data-target=".primary-collapse">
-                <span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </span>
-            </a>
-        </div>
-    </div>
-</div><!-- /navbar -->
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  {% include 'partials/brand.html' %}
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto pull-right">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    
+  </div>
+</nav>

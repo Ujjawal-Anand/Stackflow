@@ -2,21 +2,99 @@
 
 {% load crispy_forms_tags %}
 
-{% block extrastyles %}
- {{ block.super }}
- <!--datepicker-->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
-{% endblock extrastyles %}
-
-{% block extrascripts %}
-{{ block.super }}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
-{% endblock extrascripts %}
-
 {% block content %}
+{% block error_message %}
+    {% include 'partials/alert_messages.html' %}
+{% endblock %}
   <form method="post">
     {% csrf_token %}
-    {{ form|crispy }}
+    <div class="row">
+      <div class="col-md-6 mb-0">
+        {{ form.body|as_crispy_field }}
+      </div>
+      <div class="col-md-6 mb-0">
+        {{ form.title|as_crispy_field }}
+      </div> 
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-0">
+        {{ form.q|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.url|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.notagged|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.tagged|as_crispy_field }}
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-3 mb-0">
+        {{ form.page|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.pagesize|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.answers|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.views|as_crispy_field }}
+      </div>
+    </div>
+    
+    
+    
+    <div class="row">
+      <div class="col-md-3 mb-0">
+        {{ form.user|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.order|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.sort|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.accepted|as_crispy_field }}
+      </div>
+      
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-0">
+        {{ form.closed|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.migrated|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.notice|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.wiki|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-0">
+        {{ form.fromdate|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.todate|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.min_date|as_crispy_field }}
+      </div>
+      <div class="col-md-3 mb-0">
+        {{ form.max_date|as_crispy_field }}
+      </div>
+    </div>
     <button type="submit" class="btn btn-primary">Run</button>
   </form>
 {% endblock %}
