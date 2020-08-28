@@ -201,25 +201,25 @@
 
         <div class="ui divider"></div>
 
-        {% if is_paginated %}
+        {% if questions.has_other_pages %}
           {# `is_paginated` is default bassed in `generic.ListView` #}
           <div class="ui paginations">
             <div class="ui small pagination menu">
-              {% if page_obj.has_previous %}
-                <a class="item spf-link" href="?page={{ page_obj.previous_page_number }}">
+              {% if questions.has_previous %}
+                <a class="item spf-link" href="?page={{ questions.previous_page_number }}">
                   {% trans "prev" %}
                 </a>
               {% endif %}
               <a class="item spf-link" href="?page=1">first</a>
 
-              <!--{% if page_obj.paginator.num_pages not in page_range %}
+              <!--{% if questions.paginator.num_pages not in page_range %}
                 <div class="disabled item">...</div>
               {% endif %}-->
 
               {% for linkpage in page_range %}
-                {% ifequal linkpage page_obj.number %}
+                {% ifequal linkpage questions.number %}
                   <a class="item active">
-                    {{ page_obj.number }}
+                    {{ questions.number }}
                   </a>
                 {% else %}
                   <a class="item spf-link" href="?page={{ linkpage }}">{{ linkpage }}</a>
@@ -230,14 +230,14 @@
                 <div class="disabled item">...</div>
               {% endif %}-->
 
-              <a class="item spf-link" href="?page={{ page_obj.paginator.num_pages }}">last</a>
+              <a class="item spf-link" href="?page={{ questions.paginator.num_pages }}">last</a>
 
-              <!--{% if page_obj.paginator.num_pages > 5 and page_obj.paginator.num_pages not in page_range %}
-                <a class="item spf-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+              <!--{% if questions.paginator.num_pages > 5 and questions.paginator.num_pages not in page_range %}
+                <a class="item spf-link" href="?page={{ questions.paginator.num_pages }}">{{ questions.paginator.num_pages }}</a>
               {% endif %}-->
 
-              {% if page_obj.has_next %}
-                <a class="item spf-link" href="?page={{ page_obj.next_page_number }}">
+              {% if questions.has_next %}
+                <a class="item spf-link" href="?page={{ questions.next_page_number }}">
                   {% trans "next" %}
                 </a>
               {% endif %}

@@ -26,6 +26,11 @@ SECRET_KEY = ')9$h%!4nheox#44#$xx%j!df_ip#so!91f-v_y3c979qkf3ofj'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
 
 
 # Application definition
@@ -40,7 +45,8 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    "crispy_forms"
+    "crispy_forms",
+    'debug_toolbar'
 ]
 
 LOCAL_APPS = [
@@ -58,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
 ROOT_URLCONF = 'StackFlow.urls'
@@ -133,6 +140,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+DEBUG_TOOLBAR_CONFIG = {
+    "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
+    "SHOW_TEMPLATE_CONTEXT": True,
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -150,3 +161,5 @@ MESSAGE_TAGS = {
 WEBSITE_NAME = 'StackFlow'
 WEBSITE_TAGLINE = 'Search Stackoverflow'
 HOMEPAGE_URL = '/'
+
+QUESTIONS_PER_PAGE=10
