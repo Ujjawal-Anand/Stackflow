@@ -8,7 +8,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.decorators import method_decorator
 
-from ratelimit.decorators import ratelimit 
+from ratelimit.decorators import ratelimit
+import requests_cache
 
 from .models import ApiData
 from .forms import ApiDataForm
@@ -18,6 +19,9 @@ from .forms import ApiDataForm
 class Question(object):
     def __init__(self, data):
 	    self.__dict__ = data
+
+requests_cache.install_cache('stackflow_cache', backend='sqlite', expire_after=180)
+
 class ApiDataFormView(FormView):
     form_class = ApiDataForm
     template_name = 'api_data_form.html'
@@ -54,7 +58,7 @@ class ApiDataFormView(FormView):
     def deserialize_data(self, results):
         return [Question(data=result) for result in results]
 
-    @method_decorator(ratelimit(key='ip', rate='2/m', method=ratelimit.ALL))
+    @method_decorator(ratelimit(key='ip', rate='5/m', method=ratelimit.ALL))
     @method_decorator(ratelimit(key='ip', rate='100/d', method=ratelimit.ALL))
     def fetch_data(self, request,  params):
         was_limited = getattr(request, 'limited', False)
