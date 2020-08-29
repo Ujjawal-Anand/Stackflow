@@ -16,110 +16,15 @@
 {% block error_message %}
     {% include 'partials/alert_messages.html' %}
 {% endblock %}
-  
-    
-    {% comment %} <div class="row">
-    <div class="ui small labeled input">
-          <div class="ui label">
-            Questions
-          </div>
-          {{ form.body }}
-    </div>
-      <div class="col-md-6 mb-0">
-        {{ form.body|as_crispy_field }}
-      </div>
-      <div class="col-md-6 mb-0">
-        {{ form.title|as_crispy_field }}
-      </div> 
-    </div>
-
-    <div class="row">
-      <div class="col-md-3 mb-0">
-        {{ form.q }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.url }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.notagged }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.tagged }}
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-md-3 mb-0">
-        {{ form.page }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.pagesize }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.answers }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.views }}
-      </div>
-    </div>
-    
-    
-    
-    <div class="row">
-      <div class="col-md-3 mb-0">
-        {{ form.user }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.order }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.sort }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.accepted }}
-      </div>
-      
-    </div>
-
-    <div class="row">
-      <div class="col-md-3 mb-0">
-        {{ form.closed }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.migrated }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.notice }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.wiki }}
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-3 mb-0">
-        {{ form.fromdate }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.todate }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.min_date }}
-      </div>
-      <div class="col-md-3 mb-0">
-        {{ form.max_date }}
-      </div>
-    </div> {% endcomment %}
     
   <div class="ui equal width vertically padded grid container">
     <div class="column left-sidebar left">
         <div class="ui fluid left vertical">
           <div class="sidebar-total-questions">
             <h3 class="ui grey header">Search Filters</h3>
-            <form method="post">
+            <form method="post" id="form">
               {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Run</button>
+              <button type="submit" id="submit" class="btn btn-primary">Run</button>
               {% for field in form %}
                 {% include 'partials/form_field.html' with field=field %}      
               {% endfor %}
@@ -281,6 +186,7 @@
 {% endblock %}
 
 {% block extrascripts %}
+{{ block.super }}
 
 {% endblock extrascripts %}
 

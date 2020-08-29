@@ -6,6 +6,9 @@ from django.shortcuts import render
 from django.views.generic import FormView
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.decorators import method_decorator
+
+from ratelimit.decorators import ratelimit 
 
 from .models import ApiData
 from .forms import ApiDataForm
@@ -24,20 +27,23 @@ class ApiDataFormView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         results = self.request.session.get('results', [])
-        if len(results) > 0:
+        page = self.request.GET.get('page', None)
+
+        if len(results) > 0 and page is not None:
             context['questions'] = self.get_paginated_data(data_list=self.deserialize_data(results=results))
         
         return context
-    
-    
+
     def form_valid(self, form):
         results = {}
-        post_data = self.request.POST.dict()
-        post_data.pop('csrfmiddlewaretoken', None)
+        post_data = self.request.GET.dict()
         post_data['site'] = 'stackoverflow'
+        print('form valid')
+        print(post_data)
         
-        results = self.fetch_data(params=post_data)
+        results = self.fetch_data(request=self.request, params=post_data)
         question_list = self.deserialize_data(results)
+        print(results)
         
         context = self.get_context_data()
         context['questions'] = self.get_paginated_data(data_list=question_list)
@@ -48,9 +54,16 @@ class ApiDataFormView(FormView):
     def deserialize_data(self, results):
         return [Question(data=result) for result in results]
 
-    def fetch_data(self, params):
-        response = requests.get(url=self.endpoint, params=params)
+    @method_decorator(ratelimit(key='ip', rate='2/m', method=ratelimit.ALL))
+    @method_decorator(ratelimit(key='ip', rate='100/d', method=ratelimit.ALL))
+    def fetch_data(self, request,  params):
+        was_limited = getattr(request, 'limited', False)
         results = []
+        if was_limited:
+            messages.error(request, 'You have exaused your rate limit, please try after some time')
+            return results
+        
+        response = requests.get(url=self.endpoint, params=params)
         
         if response.status_code == 200:
             try:
