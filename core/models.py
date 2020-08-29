@@ -39,6 +39,9 @@ class ApiData(models.Model):
     # false to return only those without. Omit to elide constraint.
     accepted = models.NullBooleanField(_("accepted"), choices=BOOLEAN_FIELD_CHOICES,
                                     help_text=_("True to return only questions with accepted answers"))
+    fromdate = models.DateField(_("From Date"), null=True, blank=True,
+                        help_text=_('Return questions from date'))
+                        
     views = models.PositiveIntegerField(_("views"), blank=True, null=True,
                                 help_text=_("The minimum number of views returned questions must have."))
     answers = models.PositiveIntegerField(_("Number of answers"), 
@@ -46,8 +49,7 @@ class ApiData(models.Model):
                                           help_text=_("The minimum number of answers returned questions must have"))
 
     
-    fromdate = models.DateField(_("From Date"), null=True, blank=True,
-                        help_text=_('Return questions from date'))
+    
     todate = models.DateField(_("To Date"), null=True, blank=True,
                             help_text=_("Returns question up to date"))
     

@@ -24,9 +24,9 @@
             <h3 class="ui grey header">Search Filters</h3>
             <form method="get" id="form">
               {% for field in form %}
-                {% if forloop.counter < 6 %}
+                {% if forloop.counter < 11 %}
                   {% include 'partials/form_field.html' with field=field %}
-                {% elif forloop.counter == 6 %}
+                {% elif forloop.counter == 11 %}
               <button type="submit" id="submit" class="ui labeled icon button"><i class="stack overflow icon"></i>Search</button>
 
                   <details>
@@ -127,7 +127,7 @@
         {% else %}
         <h2 class="ui icon header aligned center">
           <i class="circular stack overflow icon"></i>
-            StackFlow <br /> <small>No Data Found, Run Query To Fetch</small>
+            StackFlow <br /> <small>No Data Found, Search Using Filters</small>
           </h2>
           
         {% endif %}
