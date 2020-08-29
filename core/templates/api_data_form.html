@@ -22,7 +22,7 @@
         <div class="ui fluid left vertical">
           <div class="sidebar-total-questions">
             <h3 class="ui grey header">Search Filters</h3>
-            <form method="post" id="form">
+            <form method="get" id="form">
               {% csrf_token %}
               <button type="submit" id="submit" class="btn btn-primary">Run</button>
               {% for field in form %}

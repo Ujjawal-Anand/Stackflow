@@ -3,13 +3,13 @@ import json
 
 from django.conf import settings
 from django.shortcuts import render
-from django.views.generic import FormView
+from django.views.generic import FormView, View
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.decorators import method_decorator
 
-from ratelimit.decorators import ratelimit
 import requests_cache
+from ratelimit.decorators import ratelimit
 
 from .models import ApiData
 from .forms import ApiDataForm
@@ -25,6 +25,7 @@ requests_cache.install_cache('stackflow_cache', backend='sqlite', expire_after=1
 class ApiDataFormView(FormView):
     form_class = ApiDataForm
     template_name = 'api_data_form.html'
+    ratelimit_increment = True
     success_url = '/'
     endpoint = 'https://api.stackexchange.com/2.2/search/advanced'
 
@@ -38,37 +39,44 @@ class ApiDataFormView(FormView):
         
         return context
 
-    def form_valid(self, form):
-        results = {}
-        post_data = self.request.GET.dict()
-        post_data['site'] = 'stackoverflow'
-        print('form valid')
-        print(post_data)
-        
-        results = self.fetch_data(request=self.request, params=post_data)
-        question_list = self.deserialize_data(results)
-        print(results)
-        
+    def get(self, request, *args, **kwargs):
         context = self.get_context_data()
-        context['questions'] = self.get_paginated_data(data_list=question_list)
-        self.request.session['results'] = results
+        get_data = self.request.GET.dict()
+        get_data.pop('csrfmiddlewaretoken', None)
+        print(get_data)
+        
+        if len(get_data) > 0:
+            get_data['site'] = 'stackoverflow'
+            results = self.fetch_data(params=get_data)
+            question_list = self.deserialize_data(results)
+        
+            context['questions'] = self.get_paginated_data(data_list=question_list)
+            self.request.session['results'] = results
     
-        return render(self.request, self.template_name, context=context)
+            return render(self.request, self.template_name, context=context)
+
+        return render(self.request, self.template_name, context)
 
     def deserialize_data(self, results):
         return [Question(data=result) for result in results]
 
     @method_decorator(ratelimit(key='ip', rate='5/m', method=ratelimit.ALL))
     @method_decorator(ratelimit(key='ip', rate='100/d', method=ratelimit.ALL))
-    def fetch_data(self, request,  params):
-        was_limited = getattr(request, 'limited', False)
+    def ratelimit_counter(self, request):
+        pass
+
+
+    def fetch_data(self, params):
+        was_limited = getattr(self.request, 'limited', False)
         results = []
         if was_limited:
-            messages.error(request, 'You have exaused your rate limit, please try after some time')
+            messages.error(self.request, 'You have exaused your rate limit, please try after some time')
             return results
         
         response = requests.get(url=self.endpoint, params=params)
-        
+        if not response.from_cache:
+            self.ratelimit_counter(request=self.request)
+
         if response.status_code == 200:
             try:
                 results = response.json()['items']
