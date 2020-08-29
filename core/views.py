@@ -32,7 +32,7 @@ class ApiDataFormView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         results = self.request.session.get('results', [])
-        page = self.request.GET.get('page', None)
+        page = self.request.GET.get('page_num', None)
 
         if len(results) > 0 and page is not None:
             context['questions'] = self.get_paginated_data(data_list=self.deserialize_data(results=results))
@@ -42,10 +42,10 @@ class ApiDataFormView(FormView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         get_data = self.request.GET.dict()
-        get_data.pop('csrfmiddlewaretoken', None)
-        print(get_data)
-        
-        if len(get_data) > 0:
+
+        page = self.request.GET.get('page_num', None)
+   
+        if len(get_data) > 0 and not page:
             get_data['site'] = 'stackoverflow'
             results = self.fetch_data(params=get_data)
             question_list = self.deserialize_data(results)
@@ -95,7 +95,7 @@ class ApiDataFormView(FormView):
     
     def get_paginated_data(self, data_list=[]):
         paginated_data = []
-        page = self.request.GET.get('page', 1)
+        page = self.request.GET.get('page_num', 1)
         paginator = Paginator(data_list, settings.QUESTIONS_PER_PAGE)
         try:
             paginated_data = paginator.page(page)

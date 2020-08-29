@@ -1,0 +1,53 @@
+{% load i18n %}
+
+{% if questions.has_other_pages %}
+        
+          <div class="ui paginations">
+            <div class="ui small pagination menu">
+              {% if questions.has_previous %}
+                <a class="item spf-link" href="?page_num={{ questions.previous_page_number }}">
+                  {% trans "prev" %}
+                </a>
+              {% endif %}
+              <a class="item spf-link" href="?page_num=1">first</a>
+
+             
+
+              {% for linkpage in page_range %}
+                {% ifequal linkpage questions.number %}
+                  <a class="item active">
+                    {{ questions.number }}
+                  </a>
+                {% else %}
+                  <a class="item spf-link" href="?page_num={{ linkpage }}">{{ linkpage }}</a>
+                {% endifequal %}
+              {% endfor %}
+
+    
+
+              <a class="item spf-link" href="?page_num={{ questions.paginator.num_pages }}">last</a>
+
+              
+
+              {% if questions.has_next %}
+                <a class="item spf-link" href="?page_num={{ questions.next_page_number }}">
+                  {% trans "next" %}
+                </a>
+              {% endif %}
+            </div><!-- end /.ui.pagination.menu -->
+            <div class="ui right floated small pagination menu">
+              <a class="active item">
+                10
+              </a>
+              <a class="item">
+                30
+              </a>
+              <a class="item">
+                50
+              </a>
+              <a class="disabled item">
+                per page
+              </a>
+            </div><!-- end /.ui.pagination.menu -->
+          </div>
+        {% endif %}{# endif is_paginated #}

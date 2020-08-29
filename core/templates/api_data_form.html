@@ -23,11 +23,22 @@
           <div class="sidebar-total-questions">
             <h3 class="ui grey header">Search Filters</h3>
             <form method="get" id="form">
-              {% csrf_token %}
-              <button type="submit" id="submit" class="btn btn-primary">Run</button>
               {% for field in form %}
-                {% include 'partials/form_field.html' with field=field %}      
+                {% if forloop.counter < 6 %}
+                  {% include 'partials/form_field.html' with field=field %}
+                {% elif forloop.counter == 6 %}
+              <button type="submit" id="submit" class="ui labeled icon button"><i class="stack overflow icon"></i>Search</button>
+
+                  <details>
+                    <summary><i class="filter icon"></i> Show more filters</summary>
+                    {% include 'partials/form_field.html' with field=field %}
+                {% else %}
+                    {% include 'partials/form_field.html' with field=field %}
+                {% endif %}      
               {% endfor %}
+              </details>
+
+
             </form>
           </div><!-- end /.sidebar-total-questions -->
         </div>
@@ -37,6 +48,7 @@
           <div>Semantic is a UI component framework based around useful principles from natural language.</div>
         </div>-->
         <div class="ui divided items">
+        {% if questions %}
           {% for question in questions %}
           <div class="item">
             <div class="stats">
@@ -97,19 +109,7 @@
                         </a>
                         <div class="description">
                           <span class="reputation">
-                            <i class="diamond orange icon"></i> <b>{{question.owner.reputation}}</b>
-                          </span>
-                          &nbsp;
-                          <span class="gold-badge">
-                            <i class="circle small yellow icon"></i> 12
-                          </span>
-                          &nbsp;
-                          <span class="silver-badge">
-                            <i class="circle small grey icon"></i> 38
-                          </span>
-                          &nbsp;
-                          <span class="bronze-badge">
-                            <i class="circle small brown icon"></i> 93
+                            <i class="circle small yellow icon"></i> Rep: <b>{{question.owner.reputation}}</b>
                           </span>
                         </div>
                       </div>
@@ -123,70 +123,32 @@
         </div><!-- end /.items -->
 
         <div class="ui divider"></div>
-
-        {% if questions.has_other_pages %}
-          {# `is_paginated` is default bassed in `generic.ListView` #}
-          <div class="ui paginations">
-            <div class="ui small pagination menu">
-              {% if questions.has_previous %}
-                <a class="item spf-link" href="?page={{ questions.previous_page_number }}">
-                  {% trans "prev" %}
-                </a>
-              {% endif %}
-              <a class="item spf-link" href="?page=1">first</a>
-
-              <!--{% if questions.paginator.num_pages not in page_range %}
-                <div class="disabled item">...</div>
-              {% endif %}-->
-
-              {% for linkpage in page_range %}
-                {% ifequal linkpage questions.number %}
-                  <a class="item active">
-                    {{ questions.number }}
-                  </a>
-                {% else %}
-                  <a class="item spf-link" href="?page={{ linkpage }}">{{ linkpage }}</a>
-                {% endifequal %}
-              {% endfor %}
-
-              <!--{% if 1 not in page_range %}
-                <div class="disabled item">...</div>
-              {% endif %}-->
-
-              <a class="item spf-link" href="?page={{ questions.paginator.num_pages }}">last</a>
-
-              <!--{% if questions.paginator.num_pages > 5 and questions.paginator.num_pages not in page_range %}
-                <a class="item spf-link" href="?page={{ questions.paginator.num_pages }}">{{ questions.paginator.num_pages }}</a>
-              {% endif %}-->
-
-              {% if questions.has_next %}
-                <a class="item spf-link" href="?page={{ questions.next_page_number }}">
-                  {% trans "next" %}
-                </a>
-              {% endif %}
-            </div><!-- end /.ui.pagination.menu -->
-            <div class="ui right floated small pagination menu">
-              <a class="active item">
-                10
-              </a>
-              <a class="item">
-                30
-              </a>
-              <a class="item">
-                50
-              </a>
-              <a class="disabled item">
-                per page
-              </a>
-            </div><!-- end /.ui.pagination.menu -->
-          </div>
-        {% endif %}{# endif is_paginated #}
+        {% include 'partials/pagination.html' %}
+        {% else %}
+        <h2 class="ui icon header aligned center">
+          <i class="circular stack overflow icon"></i>
+            StackFlow <br /> <small>No Data Found, Run Query To Fetch</small>
+          </h2>
+          
+        {% endif %}
+        
       </div>
     </div><!-- end /.ui equal width vertically padded grid container -->
 {% endblock %}
 
 {% block extrascripts %}
 {{ block.super }}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#form").submit(function() {
+            $("#form").find('input, select').each(function(){
+              if($(this).val() == '') {
+                $(this).prop('disabled', true);
+              }
+            });
+         });
+    });
+</script>
 
 {% endblock extrascripts %}
 
