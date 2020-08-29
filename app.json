@@ -1,0 +1,56 @@
+{
+    "name": "Stackflow",
+    "description": "Search Stackoverflow",
+    "repository": "https://github.com/andy1729/Stackflow",
+    "website": "https://stackflowsearch.herokuapp.com/",
+    "logo": "",
+    "keywords": [
+      "stackoverflow",
+      "search-api",
+      "django"
+    ],
+    "image": "heroku/python",
+    "env": {
+      "DJANGO_SETTINGS_MODULE": "StackFlow.settings",
+      "DEBUG": "True",
+      "NPM_CONFIG_PRODUCTION": "false",
+      "ALLOWED_HOSTS": {
+        "description": "Comma-separated list of hosts",
+        "value": ".herokuapp.com"
+      },
+      "DEFAULT_FROM_EMAIL": "noreply@example.com",
+      "SECRET_KEY": {
+        "description": "A secret key for verifying the integrity of signed cookies.",
+        "generator": "secret"
+      },
+      "AWS_MEDIA_BUCKET_NAME": {
+        "description": "If you intend to upload your own product images, we strongly recommend configure S3.",
+        "value": "",
+        "required": false
+      },
+      "AWS_ACCESS_KEY_ID": {
+        "description": "",
+        "value": "",
+        "required": false
+      },
+      "AWS_SECRET_ACCESS_KEY": {
+        "description": "",
+        "value": "",
+        "required": false
+      },
+      "ENABLE_ACCOUNT_CONFIRMATION_BY_EMAIL": "False"
+    },
+    "scripts": {
+      "postdeploy": "python manage.py migrate && python manage.py populatedb --createsuperuser --withoutimages"
+    },
+    "addons": [
+      "heroku-postgresql:hobby-dev"
+    ],
+    "buildpacks": [
+      {
+        "url": "https://github.com/heroku/heroku-buildpack-python.git"
+      }
+    ],
+    "success_url": "/"
+  }
+  
