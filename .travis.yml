@@ -1,0 +1,26 @@
+os: linux
+dist: bionic
+addons:
+  postgresql: "10"
+language: python
+python:
+  - "3.6"
+install:
+  - pip install coveralls tox
+before_script:
+  - createuser -U postgres -d stackflow --superuser
+  - createdb -U postgres -O stackflow stackflow
+
+services:
+  - postgresql
+  
+script:
+  - tox
+after_success: coveralls
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.net#django-websites"
+    on_success: always
+    on_failure: always
+    use_notice: true
