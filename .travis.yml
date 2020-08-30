@@ -1,25 +1,28 @@
-os: linux
-dist: bionic
-addons:
-  postgresql: "10"
+dist: xenial
 language: python
+sudo: false
 python:
-  - "3.6"
+  - "3.8"
+
+# command to install dependencies
 install:
-  - pip install coveralls tox
-before_script:
-  - createuser -U postgres -d stackflow --superuser
-  - createdb -U postgres -O stackflow stackflow
+  - pip install -r requirements.txt
+# command to run tests
+script:
+  - pytest
+
+env:
+  global:
+    - DATABASE_URL="postgres://postgres@localhost:5432/stackflow"
+    - SECRET_KEY="irrelevant"
+    - QUERIES_RESULTS_PATH=/tmp/queries-results.json
+  matrix:
+    - DJANGO="2.2"
+    - DJANGO="master"
+
 
 services:
   - postgresql
 
-
-after_success: coveralls
-notifications:
-  irc:
-    channels:
-      - "irc.freenode.net#django-websites"
-    on_success: always
-    on_failure: always
-    use_notice: true
+addons:
+  postgresql: 9.6

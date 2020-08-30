@@ -18,10 +18,10 @@ Please build an Application over StackOverflowAPI for searching questions in Sta
 
 **Requirements:**
 
-    - [x] Should be able to search all available fields/parameters. 
-    - [x] List the result with pagination with Django template.
-    - [x] Page/Data should be cached. (Application should only call 
+    :heavy_check_mark: Should be able to search all available fields/parameters. 
+    :heavy_check_mark: List the result with pagination with Django template.
+    :heavy_check_mark: Page/Data should be cached. (Application should only call 
         StackOverflowAPI if we didn't pull data already for same query param)
-    - [x] Add Search limit per min(5) and per day(100) for each session.
-    - [ ] Using Restful API and angular/react bonus
+    :heavy_check_mark: Add Search limit per min(5) and per day(100) for each session.
+    :heavy_check_mark: Using Restful API and angular/react bonus
 
