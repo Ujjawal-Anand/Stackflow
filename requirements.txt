@@ -33,3 +33,10 @@ gunicorn
 psycopg2
 python-decouple
 whitenoise
+
+# testing
+codecov
+pytest-django
+pytest-cov
+mixer
+selenium
