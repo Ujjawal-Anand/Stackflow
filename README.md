@@ -17,7 +17,7 @@ Please build an Application over StackOverflowAPI for searching questions in Sta
 
 **Requirements:**
 
-    - [] Should be able to search all available fields/parameters. 
+  - [ ] Should be able to search all available fields/parameters. 
     :heavy_check_mark: List the result with pagination with Django template.
     :heavy_check_mark: Page/Data should be cached. (Application should only call 
         StackOverflowAPI if we didn't pull data already for same query param)
