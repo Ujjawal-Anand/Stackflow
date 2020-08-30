@@ -13,9 +13,8 @@ before_script:
 
 services:
   - postgresql
-  
-script:
-  - tox
+
+
 after_success: coveralls
 notifications:
   irc:
