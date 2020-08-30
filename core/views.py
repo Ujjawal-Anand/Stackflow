@@ -52,6 +52,7 @@ class ApiDataFormView(FormView):
         
             context['questions'] = self.get_paginated_data(data_list=question_list)
             self.request.session['results'] = results
+            context['form'] = self.form_class(self.request.GET)
     
             return render(self.request, self.template_name, context=context)
 

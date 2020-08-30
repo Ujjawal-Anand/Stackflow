@@ -100,6 +100,7 @@ WSGI_APPLICATION = 'StackFlow.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
 DATABASES = {
     "default": dj_database_url.config(
         default="postgres://stackflow:stackflow@localhost:5432/stackflow", conn_max_age=600

@@ -26,17 +26,17 @@
                 {% if forloop.counter < 11 %}
                   {% include 'partials/form_field.html' with field=field %}
                 {% elif forloop.counter == 11 %}
-              <button type="submit" id="submit" class="ui labeled icon button"><i class="stack overflow icon"></i>Search</button>
 
                   <details>
-                    <summary><i class="filter icon"></i> Show more filters</summary>
+                    <summary> Show more filters</summary>
                     {% include 'partials/form_field.html' with field=field %}
                 {% else %}
                     {% include 'partials/form_field.html' with field=field %}
                 {% endif %}      
               {% endfor %}
-              </details>
+              </details> <br />
 
+              <button type="submit" id="submit" class="ui labeled icon button"><i class="stack overflow icon"></i>Run</button>
 
             </form>
           </div><!-- end /.sidebar-total-questions -->

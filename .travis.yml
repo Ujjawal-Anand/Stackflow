@@ -1,0 +1,31 @@
+dist: xenial
+language: python
+sudo: false
+python:
+  - "3.8"
+
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+# command to run tests
+
+
+script:       
+  - python manage.py test
+
+env:
+  global:
+    - DATABASE_URL="postgres://postgres@localhost:5432/stackflow"
+    - SECRET_KEY="irrelevant"
+    - QUERIES_RESULTS_PATH=/tmp/queries-results.json
+  matrix:
+    - DJANGO="2.2"
+    - DJANGO="master"
+
+
+services:
+  - postgresql
+
+addons:
+  postgresql: 9.6
+
