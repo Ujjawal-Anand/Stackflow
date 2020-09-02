@@ -10,7 +10,7 @@
 
 Live at https://stackflowsearch.herokuapp.com/
 
-Django version of same app : https://github.com/andy1729/Stackflow-angular
+Angular version of same app : https://github.com/andy1729/Stackflow-angular
 
 
 This django app is wrapper of [Stackoverflow advanced search api](https://api.stackexchange.com/docs/advanced-search)
