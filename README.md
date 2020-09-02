@@ -12,7 +12,7 @@ Live at https://stackflowsearch.herokuapp.com/
 
 This django app is wrapper of [Stackoverflow advanced search api](https://api.stackexchange.com/docs/advanced-search)
 
-I build this as an assignment I received for an interview process
+I built this as an assignment I received for an interview process
 
 ### Assignment Statement
 Please build an Application over StackOverflowAPI for searching questions in StackOverflow [link](https://api.stackexchange.com/docs/advanced-search)

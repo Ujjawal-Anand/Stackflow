@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'partials/alert_messages.html' %}
+<div class="ui equal width vertically padded grid container">
+    <div class="ui main twelve wide column">
+
+      <h2 class="ui dividing header">
+        Usage of /search/advanced
+        <span class="ui label radius blue">GET</span>
+      </h2>
+      <h3 class="first">Discussion</h3>
+      <p>Searches a site for any questions which fit the given criteria.</p>
+
+      <p>Search criteria are expressed using the following parameters:</p>
+      <ul>
+        <li><code>q</code> - a free form text parameter, will match all question properties based on an undocumented
+          algorithm.</li>
+        <li><code>accepted</code> - true to return only questions with accepted answers, false to return only those
+          without. Omit to elide constraint.</li>
+        <li><code>answers</code> - the minimum number of answers returned questions must have.</li>
+        <li><code>body</code> - text which must appear in returned questions' bodies.</li>
+        <li><code>closed</code> - true to return only closed questions, false to return only open ones. Omit to elide
+          constraint.</li>
+        <li><code>migrated</code> - true to return only questions migrated away from a site, false to return only those
+          not. Omit to elide constraint.</li>
+        <li><code>notice</code> - true to return only questions with post notices, false to return only those without.
+          Omit to elide constraint.</li>
+        <li><code>nottagged</code> - a semicolon delimited list of tags, none of which will be present on returned
+          questions.</li>
+        <li><code>tagged</code> - a semicolon delimited list of tags, of which at least one will be present on all
+          returned questions.</li>
+        <li><code>title</code> - text which must appear in returned questions' titles.</li>
+        <li><code>user</code> - the id of the user who must own the questions returned.</li>
+        <li><code>url</code> - a url which must be contained in a post, may include a wildcard.</li>
+        <li><code>views</code> - the minimum number of views returned questions must have.</li>
+        <li><code>wiki</code> - true to return only community wiki questions, false to return only non-community wiki
+          ones. Omit to elide constraint.</li>
+      </ul>
+
+      <p>At least one additional parameter must be set if <code>nottagged</code> is set, for performance reasons.</p>
+
+      <p>The sorts accepted by this method operate on the following fields of the <a
+          href="https://api.stackexchange.com/docs/types/question" target="blank">question
+          object</a>:</p>
+      <ul>
+        <li><strong>activity</strong> &ndash; <code>last_activity_date</code></li>
+        <li><strong>creation</strong> &ndash; <code>creation_date</code></li>
+        <li><strong>votes</strong> &ndash; <code>score</code></li>
+        <li><strong>relevance</strong> &ndash; matches the relevance tab on the site itself
+          <ul>
+            <li>Does not accept <code>min</code> or <code>max</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <code>activity</code> is the default sort.<br>
+      <br>
+      <p>
+        It is possible to <a href="https://api.stackexchange.com/docs/min-max" target="blank">create moderately complex queries</a> using <code>sort</code>,
+        <code>min</code>, <code>max</code>, <code>fromdate</code>, and <code>todate</code>.
+      </p>
+
+
+      <p>This method returns a list of <a href="https://api.stackexchange.com/docs/types/question" target="blank">questions</a>.</p>
+
+    </div>
+  
+</div>
+{% endblock content %}
+
+
