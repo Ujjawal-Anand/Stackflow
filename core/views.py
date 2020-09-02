@@ -17,24 +17,33 @@ from .forms import ApiDataForm
 # Create your views here.
 
 class Question(object):
+    '''
+      Question class will be used to deswrialize json data 
+    '''
     def __init__(self, data):
 	    self.__dict__ = data
 
+# cache requests, expires after 180 seconds
 requests_cache.install_cache('stackflow_cache', backend='sqlite', expire_after=180)
 
 class ApiDataFormView(FormView):
+    '''
+    Api Data form view, renders form and fetched data as well
+    '''
     form_class = ApiDataForm
     template_name = 'api_data_form.html'
-    ratelimit_increment = True
     success_url = '/'
     endpoint = 'https://api.stackexchange.com/2.2/search/advanced'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # get results data (fetched from api) from session
         results = self.request.session.get('results', [])
+        # get page number from get queryset
         page = self.request.GET.get('page_num', None)
-
+        # this is used to show next page of data
         if len(results) > 0 and page is not None:
+            # deserialize results data to questions and add to context
             context['questions'] = self.get_paginated_data(data_list=self.deserialize_data(results=results))
         
         return context
@@ -46,11 +55,15 @@ class ApiDataFormView(FormView):
         page = self.request.GET.get('page_num', None)
    
         if len(get_data) > 0 and not page:
+            # add site value
             get_data['site'] = 'stackoverflow'
+            # fetch data from api using data from get requests as params
             results = self.fetch_data(params=get_data)
+            # deserialize data
             question_list = self.deserialize_data(results)
-        
+            # paginate data
             context['questions'] = self.get_paginated_data(data_list=question_list)
+            # save data to session, this data will be used to show paginated data
             self.request.session['results'] = results
             context['form'] = self.form_class(self.request.GET)
     
@@ -59,22 +72,35 @@ class ApiDataFormView(FormView):
         return render(self.request, self.template_name, context)
 
     def deserialize_data(self, results):
+        '''
+         this will deserialize fetched json data to question object
+        '''
         return [Question(data=result) for result in results]
 
     @method_decorator(ratelimit(key='ip', rate='5/m', method=ratelimit.ALL))
     @method_decorator(ratelimit(key='ip', rate='100/d', method=ratelimit.ALL))
     def ratelimit_counter(self, request):
+        '''
+        an empty function for ratelimit counter, a call to this function will incresase the ratelimit counter
+        '''
         pass
 
 
     def fetch_data(self, params):
+        '''
+        a function to fetch data from stackoverflow api using python requests
+        '''
+        # var provided by ratelimit decorator to limit api call
         was_limited = getattr(self.request, 'limited', False)
         results = []
+        # check user has exauseted the rate limit
         if was_limited:
             messages.error(self.request, 'You have exaused your rate limit, please try after some time')
             return results
-        
+        # fetch data using python requests
         response = requests.get(url=self.endpoint, params=params)
+        # check whether response is cached data and increase ratelimit accordingly
+        # if not response from cache - do not increase rate counter
         if not response.from_cache:
             self.ratelimit_counter(request=self.request)
 
