@@ -33,6 +33,10 @@ Please build an Application over StackOverflowAPI for searching questions in Sta
 
 **Pagination**
 ![Pagination](screenshots/stackflow_3.png)
+**Details Page**
+![Pagination](screenshots/stackflow_4.png)
+**About Page**
+![Pagination](screenshots/stackflow_5.png)
 
 
 
