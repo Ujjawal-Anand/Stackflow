@@ -5,7 +5,7 @@
     <h2 class="ui icon header aligned center">
         <i class="circular stack overflow icon"></i>
         StackFlow <br /> <small>Built by - <a href="https://github.com/andy1729" target="blank">Ujjawal Anand</a></small> <br />
-        <small><a href="https://github.com/andy1729/Stackflow-angular" target="blank">Github Repo</a></small> <br />
+        <small><a href="https://stackflowsearch.herokuapp.com/" target="blank">Github Repo</a></small> <br />
         <small><a href="https://andy1729.github.io/Stackflow-angular" target="blank">Live Preview</a> </small>
     </h2>
     
@@ -19,8 +19,9 @@
 <p>Please build an Application over StackOverflowAPI for searching questions in Stack Overflow (ref: https://api.stackexchange.com/docs/advanced-search)</p>
 <h5>Requirement:</h5>
 <p><i class="check circle icon"></i>Should be able to search all available fields/parameters.</p>
-<p><i class="check circle icon"></i>List the result with pagination with AngularJS.</p>
-<p><i class="check circle icon"></i>Design the page for listing and detail page according to current standards</p>
-<p><i class="check circle icon"></i>Minimal third-party plugins</p>
+<p><i class="check circle icon"></i>List the result with pagination with Django template.</p>
+<p><i class="check circle icon"></i>Page/Data should be cached. (Application should only call 
+        StackOverflowAPI if we didn't pull data already for same query param)</p>
+<p><i class="check circle icon"></i>Add Search limit per min(5) and per day(100) for each session.</p>
 </div>
 {% endblock content %}
