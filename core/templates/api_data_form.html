@@ -4,150 +4,148 @@
 {% load custom_filters %}
 
 {% block extrastyles %}
-  {{ block.super }}
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet" media="all">
-  
-  <link href="{% static 'css/spfjs.css' %}" rel="stylesheet" media="all">
-  <link href="{% static 'css/stackoverflow_style.css' %}" rel="stylesheet" media="all">
+{{ block.super }}
+
+<link href="{% static 'css/spfjs.css' %}" rel="stylesheet" media="all">
+<link href="{% static 'css/stackoverflow_style.css' %}" rel="stylesheet" media="all">
 {% endblock extrastyles %}
 
 {% block content %}
 {% block error_message %}
-    {% include 'partials/alert_messages.html' %}
+{% include 'partials/alert_messages.html' %}
 {% endblock %}
-    
-  <div class="ui equal width vertically padded grid container">
-    <div class="column left-sidebar left">
-        <div class="ui fluid left vertical">
-          <div class="sidebar-total-questions">
-            <h3 class="ui grey header">Search Filters</h3>
-            <form method="get" id="form">
-              {% for field in form %}
-                {% if forloop.counter < 11 %}
-                  {% include 'partials/form_field.html' with field=field %}
-                {% elif forloop.counter == 11 %}
 
-                  <details>
-                    <summary> Show more filters</summary>
-                    {% include 'partials/form_field.html' with field=field %}
-                {% else %}
-                    {% include 'partials/form_field.html' with field=field %}
-                {% endif %}      
-              {% endfor %}
-              </details> <br />
+<div class="ui equal width vertically padded grid container">
+  <div class="column left-sidebar left">
+    <div class="ui fluid left vertical">
+      <div class="sidebar-total-questions">
+        <h3 class="ui grey header">Search Filters</h3>
+        <form method="get" id="form">
+          {% for field in form %}
+          {% if forloop.counter < 11 %}
+          {% include 'partials/form_field.html' with field=field %}
+          {% elif forloop.counter == 11 %}
 
-              <button type="submit" id="submit" class="ui labeled icon button"><i class="stack overflow icon"></i>Run</button>
+          <details>
+            <summary> Show more filters</summary>
+            {% include 'partials/form_field.html' with field=field %}
+            {% else %}
+            {% include 'partials/form_field.html' with field=field %}
+            {% endif %}
+            {% endfor %}
+          </details> <br />
 
-            </form>
-          </div><!-- end /.sidebar-total-questions -->
-        </div>
-      </div>
-      <div class="twelve wide column">
-        <!--<div class="repo description">
+          <button type="submit" id="submit" class="ui labeled icon button"><i
+              class="stack overflow icon"></i>Run</button>
+
+        </form>
+      </div><!-- end /.sidebar-total-questions -->
+    </div>
+  </div>
+  <div class="twelve wide column">
+    <!--<div class="repo description">
           <div>Semantic is a UI component framework based around useful principles from natural language.</div>
         </div>-->
-        <div class="ui divided items">
-        {% if questions %}
-          {% for question in questions %}
-          <div class="item">
-            <div class="stats">
-              <div class="vote stats-inside">
-                <div class="ui mini statistic">
-                  <div class="value">
-                    {{ question.score }}
-                  </div>
-                  <div class="label">
-                    votes
-                  </div>
-                </div>
+    <div class="ui divided items">
+      {% if questions %}
+      {% for question in questions %}
+      <div class="item">
+        <div class="stats">
+          <div class="vote stats-inside">
+            <div class="ui mini statistic">
+              <div class="value">
+                {{ question.score }}
               </div>
-              <div class="answers stats-inside">
-                <div class="ui mini statistic">
-                  <div class="value">
-                    {{ question.answer_count }}
-                  </div>
-                  <div class="label">
-                    answers
-                  </div>
-                </div>
-              </div>
-              <div class="views stats-inside">
-                <div class="ui mini statistic">
-                  <div class="value">
-                    {{ question.view_count }}
-                  </div>
-                  <div class="label">
-                    views
-                  </div>
-                </div>
+              <div class="label">
+                votes
               </div>
             </div>
-            <div class="content">
-              <a href="{{ question.link}}" class="ui blue header no-bold spf-link">{{ question.title }}</a>
-              <div class="meta">
-                <span class="date">asked {{ question.creation_date|timestamp_to_time }}</span>
+          </div>
+          <div class="answers stats-inside">
+            <div class="ui mini statistic">
+              <div class="value">
+                {{ question.answer_count }}
               </div>
-              {% comment %} <div class="description">
-                <p>{{ question.description|safe|striptags|truncatewords:"30" }}</p>
-              </div> {% endcomment %}
-              <div class="extra">
-                {% for tag in question.tags %}
-                 <div class="ui horizontal label no-radius">{{ tag }} </div>
-                {% endfor %}
+              <div class="label">
+                answers
+              </div>
+            </div>
+          </div>
+          <div class="views stats-inside">
+            <div class="ui mini statistic">
+              <div class="value">
+                {{ question.view_count }}
+              </div>
+              <div class="label">
+                views
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <a href="{{ question.link}}" class="ui blue header no-bold spf-link">{{ question.title }}</a>
+          <div class="meta">
+            <span class="date">asked {{ question.creation_date|timestamp_to_time }}</span>
+          </div>
+          {% comment %} <div class="description">
+            <p>{{ question.description|safe|striptags|truncatewords:"30" }}</p>
+          </div> {% endcomment %}
+          <div class="extra">
+            {% for tag in question.tags %}
+            <div class="ui horizontal label no-radius">{{ tag }} </div>
+            {% endfor %}
 
-                <div class="ui right floated user-info">
-                  <div class="ui items">
-                    <div class="item">
-                      <a class="ui tiny image spf-link" href="{{ question.owner.link }}">
-                        <img src="{{ question.owner.profile_image }}">
-                      </a>
-                      <div class="content">
-                        <a class="ui blue small header spf-link"
-                          href="{{ question.owner.link }}">
-                          {{ question.owner.display_name }}
-                        </a>
-                        <div class="description">
-                          <span class="reputation">
-                            <i class="circle small yellow icon"></i> Rep: <b>{{question.owner.reputation}}</b>
-                          </span>
-                        </div>
-                      </div>
+            <div class="ui right floated user-info">
+              <div class="ui items">
+                <div class="item">
+                  <a class="ui tiny image spf-link" href="{{ question.owner.link }}">
+                    <img src="{{ question.owner.profile_image }}">
+                  </a>
+                  <div class="content">
+                    <a class="ui blue small header spf-link" href="{{ question.owner.link }}">
+                      {{ question.owner.display_name }}
+                    </a>
+                    <div class="description">
+                      <span class="reputation">
+                        <i class="circle small yellow icon"></i> Rep: <b>{{question.owner.reputation}}</b>
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {% endfor %}
-        </div><!-- end /.items -->
-
-        <div class="ui divider"></div>
-        {% include 'partials/pagination.html' %}
-        {% else %}
-        <h2 class="ui icon header aligned center">
-          <i class="circular stack overflow icon"></i>
-            StackFlow <br /> <small>No Data Found, Search Using Filters</small>
-          </h2>
-          
-        {% endif %}
-        
+        </div>
       </div>
-    </div><!-- end /.ui equal width vertically padded grid container -->
+      {% endfor %}
+    </div><!-- end /.items -->
+
+    <div class="ui divider"></div>
+    {% include 'partials/pagination.html' %}
+    {% else %}
+    <h2 class="ui icon header aligned center">
+      <i class="circular stack overflow icon"></i>
+      StackFlow <br /> <small>No Data Found, Search Using Filters</small>
+    </h2>
+
+    {% endif %}
+
+  </div>
+</div><!-- end /.ui equal width vertically padded grid container -->
 {% endblock %}
 
 {% block extrascripts %}
 {{ block.super }}
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#form").submit(function() {
-            $("#form").find('input, select').each(function(){
-              if($(this).val() == '') {
-                $(this).prop('disabled', true);
-              }
-            });
-         });
+  $(document).ready(function () {
+    $("#form").submit(function () {
+      $("#form").find('input, select').each(function () {
+        if ($(this).val() == '') {
+          $(this).prop('disabled', true);
+        }
+      });
     });
+  });
 </script>
 
 {% endblock extrascripts %}
-

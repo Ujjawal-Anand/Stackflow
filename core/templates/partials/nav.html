@@ -1,14 +1,17 @@
 {% load i18n %}
 
+
 <div class="page header">
   <div class="ui container">
     <div class="ui right floated icon text menu">
-      
-        <div class="item">
-          <a class="spf-link" href=""><b>{% trans "Sign In" %}</b></a>
+      <div class="item">
+          <a class="spf-link" href="{% url 'apt-data-form' %}"><b>{% trans "Home" %}</b></a>
         </div>
         <div class="item">
-          <a href=""><b>{% trans "Sign Up" %}</b></a>
+          <a class="spf-link" href="{% url 'details' %}"><b>{% trans "Detail" %}</b></a>
+        </div>
+        <div class="item">
+          <a href="{% url 'about' %}"><b>{% trans "About" %}</b></a>
         </div>
     </div>
 
