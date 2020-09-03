@@ -8,6 +8,8 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+Request - Please star 🌟 the repo, if you find it helpful
+
 Live at https://stackflowsearch.herokuapp.com/
 
 Angular version of same app : https://github.com/andy1729/Stackflow-angular
